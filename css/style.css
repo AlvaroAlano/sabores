@@ -1,3 +1,4 @@
+/* Estilo básico do body e layout */
 * {
   margin: 0;
   padding: 0;
@@ -8,12 +9,16 @@ body {
   font-family: 'Roboto', sans-serif;
   background-color: #fff;
   margin-bottom: 70px; /* Espaço para o rodapé fixo */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 header {
   padding: 10px;
 }
 
+/* Barra de busca */
 .search-bar {
   width: 100%;
   max-width: 100%;
@@ -21,7 +26,7 @@ header {
   border-radius: 30px;
   border: 1px solid #CCC;
   padding: 10px 10px 10px 40px;
-  background-image: url('./img/search-svgrepo-com.svg');
+  background-image: url('/img/search-svgrepo-com.svg');
   background-position: 10px center;
   background-repeat: no-repeat;
   background-size: 22px;
@@ -37,6 +42,7 @@ header {
   border-color: #096F8C;
 }
 
+/* Títulos e layout das categorias */
 h1 {
   font-size: 28px;
   font-weight: bold;
@@ -72,6 +78,7 @@ h1 {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
+/* Estilo da lista de produtos */
 .product-list {
   padding: 10px 10px;
 }
@@ -79,7 +86,6 @@ h1 {
 .product {
   background-color: #096F8C;
   height: 180px;
-  padding: 0 20px 0 0;
   margin-bottom: 20px;
   border-radius: 20px;
   display: flex;
@@ -87,12 +93,13 @@ h1 {
   justify-content: space-between;
   color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+  padding: 0 8px 0 0;
 }
 
 .product img {
   border-radius: 50%;
-  width: 120px;
-  height: 120px;
+  width: 130px;
+  height: 130px;
 }
 
 .product-info {
@@ -106,7 +113,7 @@ h1 {
 }
 
 .product-info p {
-  margin: 5px 0;
+  margin: 10px 0;
   font-size: 14px;
   opacity: 0.8;
 }
@@ -116,29 +123,44 @@ h1 {
   font-weight: bold;
 }
 
+/* Estilo dos controles de quantidade */
 .product-controls {
   display: flex;
   justify-content: center;
   width: 130px;
   margin-top: 14px;
+  padding: 4px;
   background-color: #fff;
   color: #000;
   font-weight: bold;
+  font-size: 16px;
   border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
 }
 
 .product-controls button {
   background-color: #fff;
   color: #000;
   border: none;
-  padding: 2px 10px;
-  font-size: 14px;
+  text-align: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+  width: 30px;
   cursor: pointer;
-  margin: 0 10px;
 }
 
+.quantity {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  width: 50px;
+}
+
+/* Rodapé e ícones */
 footer {
-  position: sticky;
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -150,14 +172,12 @@ footer {
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.footer-icon {
+.footer-icons {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
+  justify-content: space-between;
+  width: 85%;
+  max-width: 500px;
   margin: 0 auto;
-  text-decoration: none;
-  color: inherit;
 }
 
 .footer-icon {
@@ -167,24 +187,29 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  text-decoration: none;
 }
 
-.footer-icons {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-.footer-icons img {
+.footer-icon img {
   width: 24px;
   height: 24px;
   display: block;
-  margin-top: 5px 5px;
+  margin-top: 5px;
 }
 
 .footer-icon span {
   display: block;
-  font-size: 14px;
+  font-size: 16px;
+}
+
+/* Ícone ativo no rodapé */
+.footer-icon.active {
+  color: #096F8C;
+}
+
+.footer-icon.active img {
+  filter: invert(27%) sepia(84%) saturate(2558%) hue-rotate(185deg) brightness(99%) contrast(107%);
+  /* Filtro que transforma o ícone em azul */
 }

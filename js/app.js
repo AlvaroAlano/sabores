@@ -1,56 +1,49 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   // Seleciona todas as categorias e produtos
   const categories = document.querySelectorAll('.category');
   const products = document.querySelectorAll('.product');
+  const footerIcons = document.querySelectorAll('.footer-icon');
+  const contentSections = document.querySelectorAll('.content');
+  const incrementButtons = document.querySelectorAll('.increment');
+  const decrementButtons = document.querySelectorAll('.decrement');
 
-  // Função para mostrar produtos com base na categoria selecionada
+  /**
+   * Função para mostrar produtos com base na categoria selecionada
+   * @param {string} category 
+   */
   function filterProducts(category) {
-    // Se a categoria for "all", mostrar todos os produtos
-    if (category === 'all') {
-      products.forEach(product => {
-        product.style.display = 'flex'; // Mostrar o produto
-      });
-    } else {
-      products.forEach(product => {
-        // Verifica a categoria do produto
-        if (product.getAttribute('data-category') === category) {
-          product.style.display = 'flex'; // Mostrar o produto
-        } else {
-          product.style.display = 'none'; // Esconder o produto
-        }
-      });
-    }
-  }
-
-  // Adiciona um event listener para cada categoria
-  categories.forEach(category => {
-    category.addEventListener('click', function() {
-      // Remove a classe 'active' de todas as categorias
-      categories.forEach(cat => cat.classList.remove('active'));
-      
-      // Adiciona a classe 'active' à categoria clicada
-      this.classList.add('active');
-
-      // Pega a categoria clicada
-      const selectedCategory = this.getAttribute('data-category');
-
-      // Chama a função para filtrar os produtos
-      filterProducts(selectedCategory);
+    products.forEach(product => {
+      // Verifica a categoria do produto
+      product.style.display = (product.getAttribute('data-category') === category) ? 'flex' : 'none';
     });
-  });
-});
-
-window.addEventListener('resize', function() {
-  if (window.innerHeight < 500) {  // Defina o tamanho da janela ao detectar o teclado
-    document.querySelector('footer').style.display = 'none'; // Esconde o footer
-  } else {
-    document.querySelector('footer').style.display = 'flex'; // Mostra o footer novamente
   }
-});
 
-document.addEventListener('DOMContentLoaded', function() {
-  // Função para aumentar ou diminuir a quantidade
-  const updateQuantity = (button, action) => {
+  /**
+   * Função para lidar com a exibição de seções com base no ícone do rodapé clicado
+   * @param {string} target 
+   */
+  function showSection(target) {
+    contentSections.forEach(section => {
+      section.style.display = 'none';
+    });
+    document.getElementById(target).style.display = 'block';
+  }
+
+  /**
+   * Função para definir o ícone ativo no rodapé
+   * @param {HTMLElement} targetIcon 
+   */
+  function setActiveIcon(targetIcon) {
+    footerIcons.forEach(icon => icon.classList.remove('active'));
+    targetIcon.classList.add('active');
+  }
+
+  /**
+   * Função para atualizar a quantidade de produto
+   * @param {HTMLElement} button 
+   * @param {string} action 
+   */
+  function updateQuantity(button, action) {
     const quantityElement = button.parentElement.querySelector('.quantity');
     let currentQuantity = parseInt(quantityElement.textContent); // Converte o texto em número
 
@@ -61,23 +54,55 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     quantityElement.textContent = `${currentQuantity} kg`; // Atualiza o texto da quantidade
-  };
+  }
 
-  // Seleciona todos os botões de incremento e decremento
-  const incrementButtons = document.querySelectorAll('.increment');
-  const decrementButtons = document.querySelectorAll('.decrement');
+  /**
+   * Função para verificar a altura da janela e esconder o rodapé se o teclado estiver visível (para dispositivos móveis)
+   */
+  function handleResize() {
+    if (window.innerHeight < 500) {
+      document.querySelector('footer').style.display = 'none'; // Esconde o footer quando o teclado está visível
+    } else {
+      document.querySelector('footer').style.display = 'flex'; // Mostra o footer novamente
+    }
+  }
 
-  // Adiciona eventos de clique para os botões de incremento
+  // ===== Eventos de Categoria =====
+  categories.forEach(category => {
+    category.addEventListener('click', function () {
+      categories.forEach(cat => cat.classList.remove('active')); // Remove a classe 'active' de todas as categorias
+      this.classList.add('active'); // Adiciona a classe 'active' à categoria clicada
+      const selectedCategory = this.getAttribute('data-category');
+      filterProducts(selectedCategory); // Filtra os produtos com base na categoria
+    });
+  });
+
+  // ===== Eventos de Incremento/Decremento =====
   incrementButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      updateQuantity(button, 'increment');
+    button.addEventListener('click', function () {
+      updateQuantity(button, 'increment'); // Atualiza a quantidade para incrementar
     });
   });
 
-  // Adiciona eventos de clique para os botões de decremento
   decrementButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      updateQuantity(button, 'decrement');
+    button.addEventListener('click', function () {
+      updateQuantity(button, 'decrement'); // Atualiza a quantidade para decrementar
     });
   });
+
+  // ===== Eventos do Rodapé =====
+  footerIcons.forEach(icon => {
+    icon.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = this.getAttribute('data-target');
+      showSection(target); // Mostra a seção correta
+      setActiveIcon(this); // Define o ícone como ativo
+    });
+  });
+
+  // Exibe a tela inicial ao carregar a página
+  showSection('inicio');
+
+  // Adiciona evento de redimensionamento para ocultar o rodapé quando o teclado estiver visível
+  window.addEventListener('resize', handleResize);
 });
